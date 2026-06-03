@@ -133,7 +133,7 @@ html, body {
   justify-content: center;
   background: var(--bg);
   overflow: hidden;
-  padding: 10px; /* Slight padding so the PDF doesn't cut directly into the screen edges */
+  padding: 15px; /* Slight padding so the PDF doesn't cut directly into the screen edges */
 }
 
 /* ── LOADING OVERLAY ────────────────────────────────────────── */
