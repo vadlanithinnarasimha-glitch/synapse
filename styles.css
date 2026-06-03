@@ -133,7 +133,7 @@ html, body {
   justify-content: center;
   background: var(--bg);
   overflow: hidden;
-  padding: 15px; /* Slight padding so the PDF doesn't cut directly into the screen edges */
+  padding: 10px; /* Slight padding so the PDF doesn't cut directly into the screen edges */
 }
 
 /* ── LOADING OVERLAY ────────────────────────────────────────── */
@@ -207,7 +207,7 @@ html, body {
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: fill; /* Ensures the image aspect ratio is respected */
+  object-fit: contain; /* Ensures the image aspect ratio is respected */
   pointer-events: none;
 }
 
