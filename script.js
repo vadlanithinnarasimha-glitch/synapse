@@ -13,7 +13,7 @@ const pageFlip = new St.PageFlip(flipbook, {
   maxWidth:           3000, // Forcing a massive max width so it fills large screens
   minHeight:          300,
   maxHeight:          3000, // Forcing a massive max height so it fills large screens
-  showCover:          true,
+  showCover:          false,
   mobileScrollSupport: true,
   usePortrait:        true,
   startZIndex:        10,
