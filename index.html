@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Newsletter — Flipbook Reader</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.min.js"></script>
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="topbar-left">
+      <span class="logo-mark">◈</span>
+      <span class="logo-text">NewsReader</span>
+    </div>
+    <div class="topbar-center">
+      <span class="issue-label">Current Issue</span>
+    </div>
+    <div class="topbar-right">
+      <span id="page-indicator-top" class="page-indicator">— / —</span>
+    </div>
+  </header>
+
+  <main class="layout">
+
+    <aside class="sidebar">
+      <div class="sidebar-section">
+        <p class="sidebar-label">Publication</p>
+        <p class="sidebar-value" id="pub-name">Newsletter</p>
+      </div>
+      <div class="sidebar-section">
+        <p class="sidebar-label">Total Pages</p>
+        <p class="sidebar-value" id="total-pages">—</p>
+      </div>
+      <div class="sidebar-section">
+        <p class="sidebar-label">Current Spread</p>
+        <p class="sidebar-value" id="current-spread">—</p>
+      </div>
+    </aside>
+
+    <section class="stage">
+      <div class="loader-overlay" id="loader">
+        <div class="loader-inner">
+          <div class="spinner"></div>
+          <p class="loader-text">Rendering pages…</p>
+          <div class="progress-track"><div class="progress-bar" id="progress-bar"></div></div>
+          <p class="loader-pct" id="loader-pct">0%</p>
+        </div>
+      </div>
+
+      <div id="flipbook"></div>
+    </section>
+
+  </main>
+
+  <footer class="bottombar">
+    <div class="controls-container">
+      <button class="btn-control" id="btn-first" title="First page">
+        <svg viewBox="0 0 24 24"><polyline points="11 17 6 12 11 7"/><polyline points="18 17 13 12 18 7"/></svg>
+      </button>
+      <button class="btn-control" id="btn-prev" title="Previous">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <div class="page-info">
+        <span id="page-indicator">— / —</span>
+      </div>
+      <button class="btn-control" id="btn-next" title="Next">
+        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+      <button class="btn-control" id="btn-last" title="Last page">
+        <svg viewBox="0 0 24 24"><polyline points="13 17 18 12 13 7"/><polyline points="6 17 11 12 6 7"/></svg>
+      </button>
+      <div class="divider-vertical"></div>
+      <button class="btn-control" id="btn-fullscreen" title="Toggle fullscreen">
+        <svg viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+      </button>
+      <div class="divider-vertical"></div>
+      <div class="jump-section">
+        <input type="number" id="jump-input" class="jump-input-mini" min="1" placeholder="Go to page" />
+        <button class="btn-jump-mini" id="btn-jump">Go</button>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

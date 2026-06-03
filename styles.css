@@ -1,0 +1,332 @@
+/* ── TOKENS ─────────────────────────────────────────────────── */
+:root {
+  --bg:           #111111; /* Darkened slightly to make the PDF pop when fullscreen */
+  --surface:      #faf9f7;
+  --topbar-bg:    #1a1a1a;
+  --topbar-text:  #e8e2d8;
+  --sidebar-bg:   #ffffff;
+  --border:       #e2ddd7;
+  --accent:       #b5460f;
+  --accent-hover: #8f360a;
+  --text:         #1a1a1a;
+  --text-muted:   #888077;
+  --label:        #a09890;
+  --radius:       6px;
+  --shadow:       0 8px 40px rgba(0,0,0,0.4);
+  --sidebar-w:    220px;
+  --topbar-h:     54px;
+  --bottombar-h:  60px;
+}
+
+/* ── RESET ──────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  overflow: hidden;
+  touch-action: manipulation;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* ── TOPBAR ─────────────────────────────────────────────────── */
+.topbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--topbar-h);
+  background: var(--topbar-bg);
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  z-index: 100;
+}
+
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.logo-mark {
+  font-size: 20px;
+  color: var(--accent);
+  line-height: 1;
+}
+.logo-text {
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--topbar-text);
+  letter-spacing: 0.04em;
+}
+
+.topbar-center .issue-label {
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #666;
+}
+
+.page-indicator {
+  font-family: 'Playfair Display', serif;
+  font-size: 15px;
+  color: var(--topbar-text);
+  opacity: 0.7;
+  letter-spacing: 0.05em;
+}
+
+/* ── MAIN LAYOUT ────────────────────────────────────────────── */
+.layout {
+  position: fixed;
+  top: 0;
+  bottom: var(--bottombar-h);
+  left: 0; right: 0;
+  display: flex;
+  overflow: hidden;
+}
+
+/* ── SIDEBAR ────────────────────────────────────────────────── */
+.sidebar {
+  width: var(--sidebar-w);
+  flex-shrink: 0;
+  background: var(--sidebar-bg);
+  border-right: 1px solid var(--border);
+  padding: 24px 16px;
+  display: none;
+  flex-direction: column;
+  gap: 0;
+  overflow-y: auto;
+}
+
+.sidebar-section {
+  padding: 10px 0;
+}
+.sidebar-label {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--label);
+  margin-bottom: 4px;
+}
+.sidebar-value {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  color: var(--text);
+  font-weight: 400;
+}
+
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: 12px 0;
+}
+
+/* ── STAGE ──────────────────────────────────────────────────── */
+.stage {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  overflow: hidden;
+  padding: 10px; /* Slight padding so the PDF doesn't cut directly into the screen edges */
+}
+
+/* ── LOADING OVERLAY ────────────────────────────────────────── */
+.loader-overlay {
+  position: absolute;
+  inset: 0;
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}
+.loader-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+.spinner {
+  width: 40px; height: 40px;
+  border: 2px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.75s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.loader-text {
+  font-size: 13px;
+  color: #fff;
+  letter-spacing: 0.06em;
+}
+.progress-track {
+  width: 200px;
+  height: 3px;
+  background: #333;
+  border-radius: 99px;
+  overflow: hidden;
+}
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background: var(--accent);
+  border-radius: 99px;
+  transition: width 0.2s ease;
+}
+.loader-pct {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  color: var(--accent);
+  letter-spacing: 0.04em;
+}
+
+/* ── FLIPBOOK ELEMENT ───────────────────────────────────────── */
+#flipbook {
+  /* Forces the flipbook to expand to the max size of the stage */
+  width: 100%;
+  height: 100%;
+  box-shadow: var(--shadow);
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none; 
+}
+
+/* Page images inside the flipbook */
+.page {
+  background: #fff;
+  overflow: hidden;
+}
+.page img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Ensures the image aspect ratio is respected */
+  pointer-events: none;
+}
+
+/* ── BOTTOM BAR ──────────────────────────────────────────────── */
+.bottombar {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  height: var(--bottombar-h);
+  background: rgba(26, 26, 26, 0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top: 1px solid #333;
+  backdrop-filter: blur(10px);
+  z-index: 100;
+}
+
+.controls-container {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 24px;
+}
+
+.btn-control {
+  width: 40px;
+  height: 40px;
+  background: transparent;
+  border: 1px solid #555;
+  border-radius: 6px;
+  color: #ddd;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.btn-control:hover:not(:disabled) {
+  background: #333;
+  border-color: #888;
+  color: #fff;
+}
+
+.btn-control:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.btn-control svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  stroke-width: 2;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.page-info {
+  font-family: 'Playfair Display', serif;
+  font-size: 14px;
+  color: #ddd;
+  min-width: 80px;
+  text-align: center;
+}
+
+.page-info #page-indicator {
+  font-size: 14px;
+}
+
+.divider-vertical {
+  width: 1px;
+  height: 24px;
+  background: #444;
+}
+
+.jump-section {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.jump-input-mini {
+  width: 120px;
+  padding: 7px 10px;
+  border: 1px solid #555;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #ddd;
+  font-size: 12px;
+  outline: none;
+}
+
+.jump-input-mini:focus {
+  border-color: var(--accent);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.jump-input-mini::placeholder {
+  color: #888;
+}
+
+.btn-jump-mini {
+  padding: 7px 16px;
+  background: var(--accent);
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-jump-mini:hover {
+  background: var(--accent-hover);
+}
+
+.btn-jump-mini:active {
+  transform: scale(0.98);
+}
