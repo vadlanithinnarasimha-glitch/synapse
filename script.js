@@ -6,14 +6,14 @@ pdfjsLib.GlobalWorkerOptions.workerSrc =
 const flipbook = document.getElementById("flipbook");
 
 const pageFlip = new St.PageFlip(flipbook, {
-  width:              500, 
-  height:             700, 
-  size:               "fit",   // <--- CHANGE THIS FROM "stretch" TO "fit"
-  minWidth:           200, 
-  maxWidth:           1200,    // Adjusted for better scaling
+  width:              500, // Base calculation width
+  height:             700, // Base calculation height
+  size:               "stretch", // Allows the book to stretch dynamically
+  minWidth:           200, // Adjusted so it scales down well on mobile
+  maxWidth:           3000, // Forcing a massive max width so it fills large screens
   minHeight:          300,
-  maxHeight:          1600,    // Adjusted for better scaling
-  showCover:          true,    // <--- KEEP THIS TRUE FOR YOUR COVER
+  maxHeight:          3000, // Forcing a massive max height so it fills large screens
+  showCover:          true,
   mobileScrollSupport: true,
   usePortrait:        true,
   startZIndex:        10,
